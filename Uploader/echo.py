@@ -48,7 +48,21 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 s2tw = OpenCC('s2tw.json').convert
 
+#mdisk
+@Client.on_message(filters.private & filters.regex(pattern=".*mdisk.me.*"))
+def mdiskdown(client: pyrogram.client.Client, message: pyrogram.types.messages_and_media.message.Message):
+    try:
+        link = "https://diskuploader.entertainvideo.com/v1/file/cdnurl?param={}".format(message.text)
+        if "mdisk" in link:
+            d = threading.Thread(target=lambda:echo(message,link),daemon=True)
+            d.start()
+    except Exception:
+       bot.send_message(chat_id=update.chat.id, text=Translation.MDISK)
+       print(Exception)
 
+
+
+#download
 @Client.on_message(filters.private & filters.regex(pattern=".*http.*"))
 async def echo(bot, update):
     logger.info(update.from_user)
